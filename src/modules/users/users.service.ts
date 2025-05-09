@@ -13,25 +13,29 @@ export class UsersService{
         @InjectRepository(User)
         private readonly UserRepository:Repository<User>
     ){}
-    
+    private async findUserById(id:number):Promise<User|null>{
+        return this.UserRepository.findOne({where:{id}})
+    }
+
+
     async findAll():Promise<customInterface<User[]>>{
         const data = await this.UserRepository.find();
         return customResponse('List of users',data);    
     }
 
     async findOne(id:number):Promise<customInterface<User|null>>{
-        const data = await this.UserRepository.findOne({where:{id}})
+        const data = await this.findUserById(id);
         if(!data) return customResponse("User id not found",null,204)
         return customResponse("User found",data);
     }   
 
     async create(createUserDto:CreateUserDto):Promise<customInterface<User>>{
         const data = this.UserRepository.create(createUserDto);
-        await this.UserRepository.save(data) 
-        return customResponse("User add successfully",data);
+        const res = await this.UserRepository.save(data) 
+        return customResponse("User add successfully",res);
     }
     async update(id:number,updateUserDto: UpdateUserDto):Promise<customInterface<User|null>>{
-        const data = await this.UserRepository.findOne({where:{id}})
+        const data = await this.findUserById(id);
         if(!data) return customResponse("User id not found",null,204)
         const updated = this.UserRepository.merge(data,updateUserDto);
         await this.UserRepository.save(updated)
@@ -39,7 +43,7 @@ export class UsersService{
 
     }
     async destroy(id:number):Promise<customInterface<any>>{
-        const data = await this.UserRepository.findOne({where:{id}})
+        const data = await this.findUserById(id);
         if(!data) return customResponse("User id not found",null,204)
         await this.UserRepository.delete(id);
         return customResponse("User delete successfully",data);
