@@ -3,6 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "./entities/user.entity";
 import { Repository } from "typeorm";
 import { customInterface, customResponse } from "src/shared/utils/response.util";
+import { CreateUserDto } from "./dto/create-usser.dto";
 
 @Injectable()
 
@@ -23,5 +24,10 @@ export class UsersService{
         return customResponse("User found",data);
     }   
 
+    async create(createUserDto:CreateUserDto){
+        const data = this.UserRepository.create(createUserDto);
+        return customResponse("User add successfully",data);
+
+    }
 
 }

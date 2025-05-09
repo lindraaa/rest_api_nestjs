@@ -1,6 +1,8 @@
-import { ClassSerializerInterceptor, Controller, Get, UseInterceptors,Post, Put, Delete, Param } from "@nestjs/common";
+import { ClassSerializerInterceptor, Controller, Get, UseInterceptors,Post, Put, Delete, Param, Body } from "@nestjs/common";
 import { UsersService } from "./users.service";
 import { ApiOperation, ApiResponse } from "@nestjs/swagger";
+import { CreateUserDto } from "./dto/create-usser.dto";
+import { customResponse } from "src/shared/utils/response.util";
 
 
 @Controller('v1/users')
@@ -29,9 +31,10 @@ export class UsersController{
     @ApiResponse({status:200, description:"User added successfully"})
     @UseInterceptors(ClassSerializerInterceptor)
     @Post('/create-user')
-    create(){
-
+    create(@Body()createUserDto:CreateUserDto){
+        return this.userService.create(createUserDto)
     }
+    
 
     @ApiOperation({summary:"Update a user"})
     @ApiResponse({status:200, description:"User added successfully"})
@@ -39,7 +42,7 @@ export class UsersController{
     @UseInterceptors(ClassSerializerInterceptor)
     @Put('/update/:id')
     update(){
-
+        
     }
 
     @ApiOperation({summary:"Delete a user"})
@@ -47,6 +50,7 @@ export class UsersController{
     @ApiResponse({status:400, description:"User id not found"})
     @Delete('/delete/:id')
     delete(){
+
 
     }
     

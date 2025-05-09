@@ -14,7 +14,7 @@ export class User{
     email:string;
 
     @Exclude() // remove from the response 
-    @Column({type:"varchar",nullable:false})
+    @Column({type:"varchar",nullable:true})
     password:string
 
     @CreateDateColumn()
