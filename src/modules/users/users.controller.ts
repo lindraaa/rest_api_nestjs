@@ -50,8 +50,8 @@ export class UsersController{
     @ApiResponse({status:200, description:"User deleted successfully"})
     @ApiResponse({status:400, description:"User id not found"})
     @Delete('/delete/:id')
-    delete(){
-
+    destroy(@Param('id')id:number){
+        return this.userService.destroy(id);
 
     }
     

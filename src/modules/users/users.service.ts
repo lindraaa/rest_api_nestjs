@@ -38,4 +38,11 @@ export class UsersService{
         return customResponse("User update successfully",res);
 
     }
+    async destroy(id:number):Promise<customInterface<any>>{
+        const data = await this.UserRepository.findOne({where:{id}})
+        if(!data) return customResponse("User id not found",null,204)
+        const res = await this.UserRepository.delete(id);
+        return customResponse("User delete successfully",data);
+
+    }
 }
