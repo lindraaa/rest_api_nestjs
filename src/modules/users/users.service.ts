@@ -27,21 +27,21 @@ export class UsersService{
 
     async create(createUserDto:CreateUserDto):Promise<customInterface<User>>{
         const data = this.UserRepository.create(createUserDto);
-        const res = await this.UserRepository.save(data) 
-        return customResponse("User add successfully",res);
+        await this.UserRepository.save(data) 
+        return customResponse("User add successfully",data);
     }
     async update(id:number,updateUserDto: UpdateUserDto):Promise<customInterface<User|null>>{
         const data = await this.UserRepository.findOne({where:{id}})
         if(!data) return customResponse("User id not found",null,204)
         const updated = this.UserRepository.merge(data,updateUserDto);
-        const res = await this.UserRepository.save(updated)
-        return customResponse("User update successfully",res);
+        await this.UserRepository.save(updated)
+        return customResponse("User update successfully",updated);
 
     }
     async destroy(id:number):Promise<customInterface<any>>{
         const data = await this.UserRepository.findOne({where:{id}})
         if(!data) return customResponse("User id not found",null,204)
-        const res = await this.UserRepository.delete(id);
+        await this.UserRepository.delete(id);
         return customResponse("User delete successfully",data);
 
     }
