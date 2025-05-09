@@ -24,10 +24,11 @@ export class UsersService{
         return customResponse("User found",data);
     }   
 
-    async create(createUserDto:CreateUserDto){
+    async create(createUserDto:CreateUserDto):Promise<customInterface<User>>{
         const data = this.UserRepository.create(createUserDto);
-        return customResponse("User add successfully",data);
-
+        const res = await this.UserRepository.save(data) 
+        return customResponse("User add successfully",res);
+        
     }
 
 }
