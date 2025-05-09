@@ -1,9 +1,7 @@
-import { ClassSerializerInterceptor, Controller, Get, UseInterceptors,Post } from "@nestjs/common";
+import { ClassSerializerInterceptor, Controller, Get, UseInterceptors,Post, Put, Delete } from "@nestjs/common";
 import { UsersService } from "./users.service";
 import { ApiOperation, ApiResponse } from "@nestjs/swagger";
-import { User } from "./entities/user.entity";
-import { customResponse,customInterface} from "src/shared/utils/response.util";
-import { CreateUserDto } from "./dto/create-usser.dto";
+
 
 @Controller('v1/users')
 export class UsersController{
@@ -13,12 +11,41 @@ export class UsersController{
     @ApiResponse({status:200, description:'Return all users.'})
     @UseInterceptors(ClassSerializerInterceptor) //to hide the exclude which is the password
     @Get('/getAll')
-    async findAll(){
+    findAll(){
       return this.userService.findAll();
     }
 
+    @ApiOperation({summary:"Get user by id"})
+    @ApiResponse({status:200, description:"Return User"})
+    @ApiResponse({status:400, description:"User id not found"})
+    @UseInterceptors(ClassSerializerInterceptor)
+    @Get('/getbyid/:id')
+    findOne(){
+
+    }
+
+    @ApiOperation({summary:"Create a user"})
+    @ApiResponse({status:200, description:"User added successfully"})
+    @UseInterceptors(ClassSerializerInterceptor)
     @Post('/create-user')
-    async create(){
+    create(){
+
+    }
+
+    @ApiOperation({summary:"Update a user"})
+    @ApiResponse({status:200, description:"User added successfully"})
+    @ApiResponse({status:400, description:"User id not found"})
+    @UseInterceptors(ClassSerializerInterceptor)
+    @Put('/update/:id')
+    update(){
+
+    }
+
+    @ApiOperation({summary:"Delete a user"})
+    @ApiResponse({status:200, description:"User deleted successfully"})
+    @ApiResponse({status:400, description:"User id not found"})
+    @Delete('/delete/:id')
+    delete(){
 
     }
     
