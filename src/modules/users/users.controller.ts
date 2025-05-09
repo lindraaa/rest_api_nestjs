@@ -3,6 +3,7 @@ import { UsersService } from "./users.service";
 import { ApiOperation, ApiResponse } from "@nestjs/swagger";
 import { CreateUserDto } from "./dto/create-usser.dto";
 import { customResponse } from "src/shared/utils/response.util";
+import { UpdateUserDto } from "./dto/update-user.dto";
 
 
 @Controller('v1/users')
@@ -41,8 +42,8 @@ export class UsersController{
     @ApiResponse({status:400, description:"User id not found"})
     @UseInterceptors(ClassSerializerInterceptor)
     @Put('/update/:id')
-    update(){
-        
+    update(@Param('id')id:number,@Body()updateUserDto:UpdateUserDto){
+        return this.userService.update(id,updateUserDto)
     }
 
     @ApiOperation({summary:"Delete a user"})
