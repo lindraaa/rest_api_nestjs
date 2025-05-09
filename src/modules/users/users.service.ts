@@ -16,5 +16,12 @@ export class UsersService{
         const data = await this.UserRepository.find();
         return customResponse('List of users',data);    
     }
-    
+
+    async findOne(id:number):Promise<customInterface<User|null>>{
+        const data = await this.UserRepository.findOne({where:{id}})
+        if(!data) return customResponse("User id not found",null,204)
+        return customResponse("User found",data);
+    }   
+
+
 }

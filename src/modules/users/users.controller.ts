@@ -1,4 +1,4 @@
-import { ClassSerializerInterceptor, Controller, Get, UseInterceptors,Post, Put, Delete } from "@nestjs/common";
+import { ClassSerializerInterceptor, Controller, Get, UseInterceptors,Post, Put, Delete, Param } from "@nestjs/common";
 import { UsersService } from "./users.service";
 import { ApiOperation, ApiResponse } from "@nestjs/swagger";
 
@@ -20,7 +20,8 @@ export class UsersController{
     @ApiResponse({status:400, description:"User id not found"})
     @UseInterceptors(ClassSerializerInterceptor)
     @Get('/getbyid/:id')
-    findOne(){
+    findOne(@Param("id") id:number){
+        return this.userService.findOne(id)
 
     }
 
